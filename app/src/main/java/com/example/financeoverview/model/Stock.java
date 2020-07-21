@@ -1,6 +1,29 @@
 package com.example.financeoverview.model;
 
-public class Stock {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "stock")
+public class Stock implements Parcelable {
+
+    public static final Parcelable.Creator<Stock> CREATOR = new Parcelable.Creator<Stock>() {
+        @Override
+        public Stock createFromParcel(Parcel parcel) {
+            return new Stock(parcel);
+        }
+
+        @Override
+        public Stock[] newArray(int i) {
+            return new Stock[i];
+        }
+    };
+
+    @PrimaryKey(autoGenerate = true)
+    public int id;
 
     private String symbol;
     private String name;
@@ -21,6 +44,20 @@ public class Stock {
     private double change;
     private String change_percent;
 
+    public Stock(int id, String symbol, String name, String type, String region, String marketOpen, String markedClose, String timezone, String currency, String matchScore) {
+        this.id = id;
+        this.symbol = symbol;
+        this.name = name;
+        this.type = type;
+        this.region = region;
+        this.marketOpen = marketOpen;
+        this.markedClose = markedClose;
+        this.timezone = timezone;
+        this.currency = currency;
+        this.matchScore = matchScore;
+    }
+
+    @Ignore
     public Stock(String symbol, String name, String type, String region, String marketOpen, String markedClose, String timezone, String currency, String matchScore) {
         this.symbol = symbol;
         this.name = name;
@@ -31,6 +68,19 @@ public class Stock {
         this.timezone = timezone;
         this.currency = currency;
         this.matchScore = matchScore;
+    }
+
+    @Ignore
+    public Stock(Parcel parcel) {
+        this.symbol = parcel.readString();
+        this.name = parcel.readString();
+        this.type = parcel.readString();
+        this.region = parcel.readString();
+        this.marketOpen = parcel.readString();
+        this.markedClose = parcel.readString();
+        this.timezone = parcel.readString();
+        this.currency = parcel.readString();
+        this.matchScore = parcel.readString();
     }
 
     public String getName() {
@@ -175,5 +225,23 @@ public class Stock {
 
     public void setChange_percent(String change_percent) {
         this.change_percent = change_percent;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(this.symbol);
+        parcel.writeString(this.name);
+        parcel.writeString(this.type);
+        parcel.writeString(this.region);
+        parcel.writeString(this.marketOpen);
+        parcel.writeString(this.markedClose);
+        parcel.writeString(this.timezone);
+        parcel.writeString(this.currency);
+        parcel.writeString(this.matchScore);
     }
 }

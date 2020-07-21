@@ -60,7 +60,7 @@ public class JSONUtils {
             stock.setChange(change);
             stock.setChange_percent(change_percent);
         }else{
-            Log.e(LOG_TAG, "Stock Symbols don't match");
+            Log.e(LOG_TAG, "Stock symbols don't match");
         }
 
     }
